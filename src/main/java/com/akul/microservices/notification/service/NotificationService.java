@@ -30,16 +30,18 @@ public class NotificationService {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage,true);
             messageHelper.setFrom("from@example.com ");
-            messageHelper.setTo(orderPlacedEvent.getEmail());
+            messageHelper.setTo(orderPlacedEvent.getEmail().toString());
             messageHelper.setSubject(String.format("Your Order with OrderNbr %s placed successfully", orderPlacedEvent.getOrderNbr()));
             messageHelper.setText(String.format("""
-                            Hi
+                            Hi, %s %s
                             
                             Your Order with OrderNbr %s placed successfully.
                             
                             Best Regards
                             Cloud Shop
                             """,
+                    orderPlacedEvent.getFirstName(),
+                    orderPlacedEvent.getLastName(),
                     orderPlacedEvent.getOrderNbr()));
             log.info("Order Notification email sent !!!");
         };

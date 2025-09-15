@@ -11,5 +11,6 @@ target/
 *.iml
 *.ipr
 .env
-mysql
-docker/mysql/data
+
+src/main/resources/application.properties
+!src/main/resources/application.properties.example

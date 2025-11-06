@@ -1,47 +1,81 @@
-# Notification Service
+# 📩 Notification Service
 
 **Notification Service** is a microservice responsible for consuming and processing Kafka events within the **MicroServiceGrid** ecosystem.  
-It ensures reliable handling of `OrderPlacedEvent` messages and uses **Avro** format for event serialization/deserialization.
+It listens to the `order-placed` topic, deserializes events using **Avro**, and ensures reliable event-driven communication.
 
 ---
 
 ## 🚀 Features
 - Consume `OrderPlacedEvent` messages from Kafka
-- Serialize/deserialize events using **Avro** format
+- Deserialize messages using **Avro**
 - Automatically generate Java classes from Avro schemas
-- Configured Kafka consumer with type-safe deserialization
-- Replaces old manual JSON-based deserialization
+- Type-safe deserialization with Spring Kafka
+- Integration tests using **Testcontainers**
+- Deployable via `docker-compose.override.yml`
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠 Tech Stack
 - **Java 21**
 - **Spring Boot 3**
-- **Spring Kafka** for event-driven communication
-- **Avro** for schema definition and serialization
-- **Testcontainers** for Kafka integration testing
-- **Docker** compatible
+- **Spring Kafka**
+- **Avro**
+- **Docker Compose**
+- **Testcontainers**
 
 ---
 
 ## ⚙️ Quick Start
-1. Clone the repo:
-```bash
 
- git clone https://github.com/Andrij72/notification-service.git
- cd notification-service
-``` 
-2. Build the project:
-```bash
-./mvnw clean install
-``` 
+### 1. Clone the repository
 
-3. Run the service:
 ```bash
-./mvnw spring-boot:run
+git clone https://github.com/Andrij72/notification-service.git
+cd notification-service
 ```
 
-Kafka consumer listens to the order-placed topic and processes OrderPlacedEvent.
+### 2. Build the project
+```bash
+   ./mvnw clean install
+```
+### 3. Run with Docker Compose
+
+The service runs as part of the shared microservices-net.
+Docker will automatically pull the image from Docker Hub (andr72/notification-service:latest):
+```bash
+docker-compose -f docker-compose.override.yml up -d
+```
+---
+### Kafka Topics
+
+order-placed → Consumes OrderPlacedEvent
+
+----
+
+### Health Check
+
+Spring Boot Actuator provides a health endpoint:
+
+curl http://localhost:8089/actuator/health
+
+
+Expected response:
+
+{"status":"UP"}
 
 ---
-👨‍💻 Author: Andrij72 — demo project exploring microservice architecture with Spring Boot, Kafka, and Avro.
+
+### 📌 Ports Reference
+
+|   | Service              | Port (host:container) |
+|:--|----------------------|----------------------|
+|   | Notification Service | 8089:8089            |
+
+> Part of **MicroServiceGrid** with API Gateway, Order, Inventory, Product services.
+----
+
+### 👨‍💻 Author
+
+Andrij72 — demo project exploring microservice architecture with Spring Boot, Kafka, and Avro.
+
+----
